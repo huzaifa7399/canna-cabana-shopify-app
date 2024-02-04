@@ -1,0 +1,15 @@
+
+.center-loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.customDatePicker >
+.MuiFormControl-root >
+.MuiInputBase-root 
+{
+height: 40px;
+}

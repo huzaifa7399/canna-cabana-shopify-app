@@ -1,3 +1,5 @@
-import SideBar from './side-bar';
+import Loader from "./loader";
+import SideBar from "./side-bar";
+import PageLoader from "./page-loader";
 
-export { SideBar };
+export { Loader, PageLoader, SideBar };

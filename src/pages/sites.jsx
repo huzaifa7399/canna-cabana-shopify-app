@@ -1,28 +1,29 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Typography } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
+import { Typography } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
-import { httpService } from '../service';
+import { httpService } from "../service";
+import { PageLoader } from "../components";
 
 const columns = [
-  { id: 'name', label: 'Name' },
-  { id: 'address', label: 'Address' },
-  { id: 'phone', label: 'Phone' },
-  { id: 'email', label: 'email' },
-  { id: 'license', label: 'License' },
-  { id: 'title', label: 'Title' },
-  { id: 'id', label: 'Action' },
+  { id: "name", label: "Name" },
+  { id: "address", label: "Address" },
+  { id: "phone", label: "Phone" },
+  { id: "email", label: "email" },
+  { id: "license", label: "License" },
+  { id: "title", label: "Title" },
+  { id: "id", label: "Action" },
 ];
 
 const Sites = () => {
@@ -37,7 +38,7 @@ const Sites = () => {
     try {
       setSites([]);
       setLoading(true);
-      const resp = await httpService.get('/store/list');
+      const resp = await httpService.get("/store/list");
       const data = resp.data.data;
       setSites(data);
       console.log(data[0]);
@@ -65,11 +66,15 @@ const Sites = () => {
     getSites();
   }, []);
 
+  if (loading) return <PageLoader />;
+
   return (
     <div>
-      <Typography variant="h4">Sites Page</Typography>
+      <Typography gutterBottom variant="h5">
+        Sites Page
+      </Typography>
 
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 700 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -95,7 +100,7 @@ const Sites = () => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.id === 'id' ? (
+                            {column.id === "id" ? (
                               <IconButton
                                 aria-label="edit"
                                 onClick={() => editHandler(value)}

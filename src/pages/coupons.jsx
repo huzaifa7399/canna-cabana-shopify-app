@@ -1,29 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Card, Typography } from "@mui/material";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import { Typography } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import { httpService } from '../service';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { httpService } from "../service";
+import { PageLoader } from "../components";
 
 const columns = [
-  { id: 'code', label: 'Code' },
-  { id: 'discount_type', label: 'Discount Type' },
-  { id: 'discount_value', label: 'Discount Value' },
-  { id: 'expiration_date', label: 'Expiration Date' },
-  { id: 'max_usage', label: 'Max Usage' },
-  { id: 'id', label: 'Action' },
+  { id: "code", label: "Code" },
+  { id: "discount_type", label: "Discount Type" },
+  { id: "discount_value", label: "Discount Value" },
+  { id: "expiration_date", label: "Expiration Date" },
+  { id: "max_usage", label: "Max Usage" },
+  { id: "id", label: "Action" },
 ];
 
 const Coupons = () => {
@@ -36,7 +34,7 @@ const Coupons = () => {
   async function fetchCoupons() {
     try {
       setLoading(true);
-      const resp = await httpService.get('/admin/coupons/list');
+      const resp = await httpService.get("/admin/coupons/list");
       const data = resp.data.data;
 
       setCoupons(data);
@@ -69,13 +67,21 @@ const Coupons = () => {
     fetchCoupons();
   }, []);
 
+  if (loading) return <PageLoader />;
+
   return (
     <div>
-      <Typography variant="h4">Coupons Page</Typography>
+      <Typography gutterBottom variant="h5">
+        Coupons Page
+      </Typography>
 
-      <Link to="/coupon/create">Create Coupons</Link>
+      <Box m="20px 0" display="flex" justifyContent="end">
+        <Button variant="contained" onClick={() => navigate("/coupon/create")}>
+          Create Coupons
+        </Button>
+      </Box>
 
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Card sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 700 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -101,15 +107,21 @@ const Coupons = () => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.id === 'id' ? (
+                            {column.id === "id" ? (
                               <>
                                 <IconButton
+                                  sx={{
+                                    padding: "0 8px",
+                                  }}
                                   aria-label="edit"
                                   onClick={() => editHandler(value)}
                                 >
                                   <EditIcon />
                                 </IconButton>
                                 <IconButton
+                                  sx={{
+                                    padding: "0 8px",
+                                  }}
                                   aria-label="edit"
                                   onClick={() => deleteHandler(value)}
                                 >
@@ -137,7 +149,7 @@ const Coupons = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </Card>
     </div>
   );
 };
