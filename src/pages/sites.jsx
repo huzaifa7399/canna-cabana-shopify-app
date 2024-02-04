@@ -104,6 +104,9 @@ const Sites = () => {
                               <IconButton
                                 aria-label="edit"
                                 onClick={() => editHandler(value)}
+                                sx={{
+                                  padding: "0 8px",
+                                }}
                               >
                                 <EditIcon />
                               </IconButton>

@@ -7,8 +7,8 @@ import {
   Select,
   MenuItem,
   Typography,
-  Stack,
   Box,
+  Grid,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
@@ -110,93 +110,118 @@ export default function CreateCoupon() {
         {id ? "Update Coupon" : "Create New Coupon"}{" "}
       </Typography>
 
-      <Stack gap="20px">
-        <Box>
-          <Typography gutterBottom>Code</Typography>
-          <TextField
-            size="small"
-            id="code"
-            placeholder="Code"
-            onChange={(e) => updateStateHandler("code", e.target.value)}
-            value={coupon.code}
-            error={coupon.code === ""}
-          />
-        </Box>
-        <Box>
-          <Typography gutterBottom>Discount Type</Typography>
+      <Grid rowGap={2} container>
+        <Grid container item md={12} lg={12} xl={12}>
+          <Grid item md={6} lg={6} xl={6}>
+            <Box>
+              <Typography gutterBottom>Code</Typography>
+              <TextField
+                size="small"
+                id="code"
+                placeholder="Code"
+                onChange={(e) => updateStateHandler("code", e.target.value)}
+                value={coupon.code}
+                error={coupon.code === ""}
+              />
+            </Box>
+          </Grid>
+          <Grid item md={6} lg={6} xl={6}>
+            <Box>
+              <Typography gutterBottom>Discount Type</Typography>
 
-          <Select
-            size="small"
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={coupon.discount_type}
-            onChange={(e) =>
-              updateStateHandler("discount_type", e.target.value)
-            }
-            style={{ minWidth: "150px" }}
-          >
-            <MenuItem value="percentage">Percentage</MenuItem>
-            <MenuItem value="flat">Flat</MenuItem>
-          </Select>
-        </Box>
+              <Select
+                size="small"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={coupon.discount_type}
+                onChange={(e) =>
+                  updateStateHandler("discount_type", e.target.value)
+                }
+                style={{ minWidth: "150px" }}
+              >
+                <MenuItem value="percentage">Percentage</MenuItem>
+                <MenuItem value="flat">Flat</MenuItem>
+              </Select>
+            </Box>
+          </Grid>
+        </Grid>
 
-        <Box>
-          <Typography gutterBottom>Discount Value</Typography>
+        <Grid container item md={12} lg={12} xl={12}>
+          <Grid item md={6} lg={6} xl={6}>
+            <Box>
+              <Typography gutterBottom>Discount Value</Typography>
 
-          <TextField
-            size="small"
-            id="discount_value"
-            InputProps={{ inputProps: { min: 0 } }}
-            placeholder="Discount Value"
-            onChange={(e) =>
-              updateStateHandler("discount_value", e.target.value)
-            }
-            value={coupon.discount_value}
-            error={coupon.discount_value === "0" || coupon.discount_value === 0}
-            type="number"
-          />
-        </Box>
+              <TextField
+                size="small"
+                id="discount_value"
+                InputProps={{ inputProps: { min: 0 } }}
+                placeholder="Discount Value"
+                onChange={(e) =>
+                  updateStateHandler("discount_value", e.target.value)
+                }
+                value={coupon.discount_value}
+                error={
+                  coupon.discount_value === "0" || coupon.discount_value === 0
+                }
+                type="number"
+              />
+            </Box>
+          </Grid>
+          <Grid item md={6} lg={6} xl={6}>
+            <Box>
+              <Typography gutterBottom>Max Usage</Typography>
+              <TextField
+                size="small"
+                InputProps={{ inputProps: { min: 0 } }}
+                id="max_usage"
+                onChange={(e) =>
+                  updateStateHandler("max_usage", e.target.value)
+                }
+                value={coupon.max_usage}
+                error={coupon.max_usage === "0" || coupon.max_usage === 0}
+                type="number"
+              />
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container item md={12} lg={12} xl={12}>
+          <Box className="customDatePicker">
+            <Typography gutterBottom>Expiration Date</Typography>
 
-        <Box>
-          <Typography gutterBottom>Max Usage</Typography>
-          <TextField
-            size="small"
-            id="max_usage"
-            onChange={(e) => updateStateHandler("max_usage", e.target.value)}
-            value={coupon.max_usage}
-            type="number"
-          />
-        </Box>
-
-        <Box className="customDatePicker">
-          <Typography gutterBottom>Expiration Date</Typography>
-
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              format="YYYY-MM-DD"
-              minDate={dayjs()}
-              value={dayjs(coupon.expiration_date)}
-              onChange={(e) =>
-                updateStateHandler("expiration_date", e.format("YYYY-MM-DD"))
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                format="YYYY-MM-DD"
+                minDate={dayjs()}
+                value={dayjs(coupon.expiration_date)}
+                onChange={(e) =>
+                  updateStateHandler("expiration_date", e.format("YYYY-MM-DD"))
+                }
+                sx={{
+                  height: "40px",
+                }}
+              />
+            </LocalizationProvider>
+          </Box>
+        </Grid>
+        <Grid container item md={12} lg={12} xl={12}>
+          <Box>
+            <LoadingButton
+              variant="contained"
+              loading={btnLoading}
+              disabled={
+                coupon.code === "" ||
+                coupon.discount_value === "0" ||
+                coupon.discount_value === 0 ||
+                coupon.max_usage === "0" ||
+                coupon.max_usage === 0
               }
-              sx={{
-                height: "40px",
-              }}
-            />
-          </LocalizationProvider>
-        </Box>
-
-        <Box>
-          <LoadingButton
-            variant="contained"
-            loading={btnLoading}
-            disabled={coupon.code === "" || coupon.discount_value === "0"}
-            onClick={id ? updateCoupon : createNewCoupon}
-          >
-            {id ? "Update" : "Create"}
-          </LoadingButton>
-        </Box>
-      </Stack>
+              onClick={id ? updateCoupon : createNewCoupon}
+            >
+              {id ? "Update" : "Create"}
+            </LoadingButton>
+          </Box>
+        </Grid>
+      </Grid>
     </>
   );
 }
