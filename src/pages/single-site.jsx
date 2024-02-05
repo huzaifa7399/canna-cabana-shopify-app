@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { httpService } from "../service";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { httpService } from '../service';
 import {
   Box,
   Grid,
@@ -8,9 +8,9 @@ import {
   Select,
   TextField,
   Typography,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { PageLoader } from "../components";
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { PageLoader } from '../components';
 
 export default function SingleSite() {
   const { id } = useParams();
@@ -19,25 +19,25 @@ export default function SingleSite() {
   const [btnLoading, setBtnLoading] = useState(false);
 
   const defaultFields = [
-    { store_id: id, key: "moneris_store_id", value: "" },
-    { store_id: id, key: "moneris_api_token", value: "" },
-    { store_id: id, key: "moneris_checkout_id", value: "" },
-    { store_id: id, key: "sales_tax", value: "" },
-    { store_id: id, key: "payment_options", value: "" },
+    { store_id: id, key: 'moneris_store_id', value: '' },
+    { store_id: id, key: 'moneris_api_token', value: '' },
+    { store_id: id, key: 'moneris_checkout_id', value: '' },
+    { store_id: id, key: 'sales_tax', value: '' },
+    { store_id: id, key: 'payment_options', value: '' },
   ];
 
   const renderTitle = (key) => {
-    return key === "moneris_store_id"
-      ? "Store Id"
-      : key === "moneris_api_token"
-      ? "Api Token"
-      : key === "moneris_checkout_id"
-      ? "Checkout Id"
-      : key === "sales_tax"
-      ? "Sales Tax"
-      : key === "payment_options"
-      ? "Payment Options"
-      : "";
+    return key === 'moneris_store_id'
+      ? 'Store Id'
+      : key === 'moneris_api_token'
+      ? 'Api Token'
+      : key === 'moneris_checkout_id'
+      ? 'Checkout Id'
+      : key === 'sales_tax'
+      ? 'Sales Tax'
+      : key === 'payment_options'
+      ? 'Payment Options'
+      : '';
   };
 
   async function getSiteDetails() {
@@ -76,7 +76,7 @@ export default function SingleSite() {
   const updateSite = async () => {
     try {
       setBtnLoading(true);
-      const resp = await httpService.post("/shopify/save-settings", site);
+      const resp = await httpService.post(`/shopify/${id}/save-settings`, site);
       console.log(resp.data);
     } catch (error) {
       console.log(error);
@@ -100,12 +100,12 @@ export default function SingleSite() {
           return (
             <Grid item md={6} lg={6} xl={6} key={idx}>
               <Typography variant="body2">{renderTitle(field.key)}</Typography>
-              {field.key === "payment_options" ? (
+              {field.key === 'payment_options' ? (
                 <Select
                   size="small"
-                  value={field.value || "pay_now"}
+                  value={field.value || 'pay_now'}
                   onChange={(e) => updateLibrary(field.key, e.target.value)}
-                  style={{ minWidth: "150px" }}
+                  style={{ minWidth: '150px' }}
                 >
                   <MenuItem value="pay_now">Pay now</MenuItem>
                   <MenuItem value="pay_at_pickup">Pay at pickup</MenuItem>
