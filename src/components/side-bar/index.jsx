@@ -135,8 +135,11 @@ const SideBar = () => {
               }}
             >
               <Box display="flex" justifyContent="flex-end">
-                <Button onClick={() => navigate("/login")} variant="contained">
-                  Login
+                <Button
+                  // onClick={() => navigate("/login")}
+                  variant="contained"
+                >
+                  Logout
                 </Button>
               </Box>
             </Container>
