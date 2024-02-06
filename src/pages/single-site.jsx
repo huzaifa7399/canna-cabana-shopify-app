@@ -28,13 +28,13 @@ export default function SingleSite() {
 
   const renderTitle = (key) => {
     return key === 'moneris_store_id'
-      ? 'Store Id'
+      ? 'Moneris Store Id'
       : key === 'moneris_api_token'
-      ? 'Api Token'
+      ? 'Moneris Api Token'
       : key === 'moneris_checkout_id'
-      ? 'Checkout Id'
+      ? 'Moneris Checkout Id'
       : key === 'sales_tax'
-      ? 'Sales Tax'
+      ? 'Sales Tax Percentage'
       : key === 'payment_options'
       ? 'Payment Options'
       : '';
@@ -76,7 +76,13 @@ export default function SingleSite() {
   const updateSite = async () => {
     try {
       setBtnLoading(true);
-      const resp = await httpService.post(`/shopify/${id}/save-settings`, site);
+      const payload = { ...site };
+
+      delete payload.name;
+      const resp = await httpService.post(
+        `/shopify/${id}/save-settings`,
+        payload
+      );
       console.log(resp.data);
     } catch (error) {
       console.log(error);
@@ -116,6 +122,7 @@ export default function SingleSite() {
                   size="small"
                   variant="outlined"
                   value={field.value}
+                  type={field.key === 'sales_tax' ? 'number' : 'text'}
                   onChange={(e) => updateLibrary(field.key, e.target.value)}
                 />
               )}

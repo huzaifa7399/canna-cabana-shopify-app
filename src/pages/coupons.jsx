@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Card, Grid, Typography } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import { httpService } from "../service";
-import { PageLoader, SearchBar } from "../components";
+import { httpService } from '../service';
+import { PageLoader, SearchBar } from '../components';
 
 const columns = [
-  { id: "code", label: "Code" },
-  { id: "discount_type", label: "Discount Type" },
-  { id: "discount_value", label: "Discount Value" },
-  { id: "expiration_date", label: "Expiration Date" },
-  { id: "max_usage", label: "Max Usage" },
-  { id: "id", label: "Action" },
+  { id: 'code', label: 'Code' },
+  { id: 'discount_type', label: 'Discount Type' },
+  { id: 'discount_value', label: 'Discount Value' },
+  { id: 'expiration_date', label: 'Expiration Date' },
+  { id: 'max_usage', label: 'Max Usage' },
+  { id: 'id', label: 'Action' },
 ];
 
 const Coupons = () => {
@@ -30,14 +30,14 @@ const Coupons = () => {
   const [coupons, setCoupons] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [searchedData, setSearchedData] = useState([]);
   const [tableLoading, setTableLoading] = useState(false);
 
   async function fetchCoupons() {
     try {
       setLoading(true);
-      const resp = await httpService.get("/admin/coupons/list");
+      const resp = await httpService.get('/admin/coupons/list');
       const data = resp.data.data;
 
       setCoupons(data);
@@ -62,8 +62,11 @@ const Coupons = () => {
     navigate(`/coupon/edit/${coupon_id}`);
   }
 
-  function deleteHandler() {
-    // /admin/coupon/1/delete
+  async function deleteHandler(coupon_id) {
+    setLoading(true);
+    const resp = await httpService.post(`/admin/coupons/${coupon_id}/delete`);
+    console.log(resp);
+    await fetchCoupons();
   }
 
   useEffect(() => {
@@ -92,7 +95,7 @@ const Coupons = () => {
           <Box display="flex" justifyContent="end">
             <Button
               variant="contained"
-              onClick={() => navigate("/coupon/create")}
+              onClick={() => navigate('/coupon/create')}
             >
               Create Coupons
             </Button>
@@ -100,7 +103,7 @@ const Coupons = () => {
         </Grid>
       </Grid>
 
-      <Card sx={{ width: "100%", overflow: "hidden" }}>
+      <Card sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 700 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -117,7 +120,7 @@ const Coupons = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(searchText === ""
+              {(searchText === ''
                 ? coupons.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
@@ -130,11 +133,11 @@ const Coupons = () => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.id === "id" ? (
+                          {column.id === 'id' ? (
                             <>
                               <IconButton
                                 sx={{
-                                  padding: "0 8px",
+                                  padding: '0 8px',
                                 }}
                                 aria-label="edit"
                                 onClick={() => editHandler(value)}
@@ -143,7 +146,7 @@ const Coupons = () => {
                               </IconButton>
                               <IconButton
                                 sx={{
-                                  padding: "0 8px",
+                                  padding: '0 8px',
                                 }}
                                 aria-label="edit"
                                 onClick={() => deleteHandler(value)}
@@ -162,7 +165,7 @@ const Coupons = () => {
               })}
               {!tableLoading &&
                 (coupons.length === 0 ||
-                  (searchText !== "" && searchedData.length === 0)) && (
+                  (searchText !== '' && searchedData.length === 0)) && (
                   <TableRow>
                     <TableCell colSpan={6}>
                       <Box
@@ -182,7 +185,7 @@ const Coupons = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {searchText === "" && (
+        {searchText === '' && (
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
@@ -192,7 +195,7 @@ const Coupons = () => {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        )}{" "}
+        )}{' '}
       </Card>
     </div>
   );

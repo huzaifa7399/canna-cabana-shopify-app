@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 import {
   TextField,
   Select,
@@ -9,21 +9,21 @@ import {
   Typography,
   Box,
   Grid,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers';
 
-import { httpService } from "../service";
-import { useNavigate } from "react-router-dom";
-import { PageLoader } from "../components";
+import { httpService } from '../service';
+import { useNavigate } from 'react-router-dom';
+import { PageLoader } from '../components';
 
 function defaultCouponState() {
   return {
-    code: "",
-    discount_type: "percentage",
+    code: '',
+    discount_type: 'percentage',
     discount_value: 0,
     expiration_date: dayjs(),
     max_usage: 1,
@@ -74,7 +74,7 @@ export default function CreateCoupon() {
         coupon
       );
       console.log(resp.data);
-      navigate("/coupons");
+      navigate('/coupons');
     } catch (error) {
       console.log(error);
     } finally {
@@ -89,7 +89,7 @@ export default function CreateCoupon() {
 
       const resp = await httpService.post(`/admin/coupons/create`, coupon);
       console.log(resp.data);
-      navigate("/coupons");
+      navigate('/coupons');
     } catch (error) {
       console.log(error);
     } finally {
@@ -106,8 +106,8 @@ export default function CreateCoupon() {
   return (
     <>
       <Typography gutterBottom variant="h5">
-        {" "}
-        {id ? "Update Coupon" : "Create New Coupon"}{" "}
+        {' '}
+        {id ? 'Update Coupon' : 'Create New Coupon'}{' '}
       </Typography>
 
       <Grid rowGap={2} container>
@@ -119,9 +119,9 @@ export default function CreateCoupon() {
                 size="small"
                 id="code"
                 placeholder="Code"
-                onChange={(e) => updateStateHandler("code", e.target.value)}
+                onChange={(e) => updateStateHandler('code', e.target.value)}
                 value={coupon.code}
-                error={coupon.code === ""}
+                error={coupon.code === ''}
               />
             </Box>
           </Grid>
@@ -135,12 +135,12 @@ export default function CreateCoupon() {
                 id="demo-simple-select"
                 value={coupon.discount_type}
                 onChange={(e) =>
-                  updateStateHandler("discount_type", e.target.value)
+                  updateStateHandler('discount_type', e.target.value)
                 }
-                style={{ minWidth: "150px" }}
+                style={{ minWidth: '150px' }}
               >
                 <MenuItem value="percentage">Percentage</MenuItem>
-                <MenuItem value="flat">Flat</MenuItem>
+                <MenuItem value="fixed_amount">Flat</MenuItem>
               </Select>
             </Box>
           </Grid>
@@ -157,11 +157,11 @@ export default function CreateCoupon() {
                 InputProps={{ inputProps: { min: 0 } }}
                 placeholder="Discount Value"
                 onChange={(e) =>
-                  updateStateHandler("discount_value", e.target.value)
+                  updateStateHandler('discount_value', e.target.value)
                 }
                 value={coupon.discount_value}
                 error={
-                  coupon.discount_value === "0" || coupon.discount_value === 0
+                  coupon.discount_value === '0' || coupon.discount_value === 0
                 }
                 type="number"
               />
@@ -175,10 +175,10 @@ export default function CreateCoupon() {
                 InputProps={{ inputProps: { min: 0 } }}
                 id="max_usage"
                 onChange={(e) =>
-                  updateStateHandler("max_usage", e.target.value)
+                  updateStateHandler('max_usage', e.target.value)
                 }
                 value={coupon.max_usage}
-                error={coupon.max_usage === "0" || coupon.max_usage === 0}
+                error={coupon.max_usage === '0' || coupon.max_usage === 0}
                 type="number"
               />
             </Box>
@@ -194,10 +194,10 @@ export default function CreateCoupon() {
                 minDate={dayjs()}
                 value={dayjs(coupon.expiration_date)}
                 onChange={(e) =>
-                  updateStateHandler("expiration_date", e.format("YYYY-MM-DD"))
+                  updateStateHandler('expiration_date', e.format('YYYY-MM-DD'))
                 }
                 sx={{
-                  height: "40px",
+                  height: '40px',
                 }}
               />
             </LocalizationProvider>
@@ -209,15 +209,15 @@ export default function CreateCoupon() {
               variant="contained"
               loading={btnLoading}
               disabled={
-                coupon.code === "" ||
-                coupon.discount_value === "0" ||
+                coupon.code === '' ||
+                coupon.discount_value === '0' ||
                 coupon.discount_value === 0 ||
-                coupon.max_usage === "0" ||
+                coupon.max_usage === '0' ||
                 coupon.max_usage === 0
               }
               onClick={id ? updateCoupon : createNewCoupon}
             >
-              {id ? "Update" : "Create"}
+              {id ? 'Update' : 'Create'}
             </LoadingButton>
           </Box>
         </Grid>
